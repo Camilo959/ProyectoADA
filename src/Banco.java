@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,6 +6,7 @@ public class Banco {
     private int turnos;
     private int ajuste;
     private int turnosprioritarios;
+    private int nroFila;
     private Queue<Integer> colaBanco;
     private Queue<Integer> segundaCola;
 
@@ -18,16 +18,18 @@ public class Banco {
         this.turnos = 0;
         this.ajuste = 0;
         this.turnosprioritarios = 0;
+        this.nroFila = 0;
         this.colaBanco = new LinkedList<Integer>();
         this.segundaCola = new LinkedList<Integer>();
     }
 
     public void asignarTurnoNormal() {
         this.turnos++;
+        this.nroFila++;
         if (this.ajuste < 5) {
             this.ajuste++;
         }
-        this.colaBanco.offer(this.turnos);
+        this.colaBanco.offer(this.nroFila);
     }
 
     public void asignarTurnoPrioritario() {

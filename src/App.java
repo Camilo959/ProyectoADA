@@ -1,6 +1,3 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.PriorityQueue;
 
 public class App {
 
@@ -26,12 +23,9 @@ public class App {
         banquito.asignarTurnoPrioritario();
         banquito.asignarTurnoPrioritario();
 
-
-
         banquito.atenderCliente();
         banquito.atenderCliente();
         banquito.atenderCliente();
-
 
         banquito.asignarTurnoNormal();
         System.out.println(banquito.getColaBanco());

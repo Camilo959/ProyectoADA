@@ -42,6 +42,7 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Elija una opción correcta!");
         }
+        entrada.close();
     }
 
 
