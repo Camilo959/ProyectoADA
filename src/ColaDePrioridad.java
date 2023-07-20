@@ -69,4 +69,8 @@ class ColaDePrioridad {
         monticulo.set(i, monticulo.get(j));
         monticulo.set(j, aux);
     }
+
+    public ArrayList<Integer> getMonticulo() {
+        return monticulo;
+    }
 }

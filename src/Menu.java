@@ -1,28 +1,7 @@
 import java.util.Scanner;
 
 public class Menu {
-
     private int opcion;
-    private String mensaje;
-
-    public int getOpcion() {
-        return opcion;
-    }
-
-
-    public void setOpcion(int opcion) {
-        this.opcion = opcion;
-    }
-
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
 
 
     public Menu() {
@@ -33,24 +12,29 @@ public class Menu {
     public void mostrarMenu() throws Exception{
         Scanner entrada = new Scanner(System.in);
 
-        System.out.println("\nBienvenido a tu banco preferido!");
-        System.out.println("1. Turno normal \n2. Turno prioritario \n3. Atender Cliente \n4. Salir");
+        System.out.println("╔═════════════════════════╗");
+        System.out.println("║       Bancolombia       ║");
+        System.out.println("╠═════════════════════════╣");
+        System.out.println("║ 1. Asignar turno Normal ║");
+        System.out.println("║ 2. Asignar turno Prior. ║");
+        System.out.println("║ 3. Atender cliente      ║");
+        System.out.println("║ 4. Salir                ║");
+        System.out.println("╚═════════════════════════╝");
+        System.out.print("Ingrese una opción: ");
         
         try {
             this.opcion = entrada.nextInt();
+            entrada.nextLine(); // Consumir el salto de línea
 
         } catch (Exception e) {
-            System.out.println("Elija una opción correcta!");
+            this.opcion = 0;
+            System.out.println("\nElija una opción correcta!");
         }
-        entrada.close();
+        // entrada.close();
     }
 
 
-    public void validarOpcion() throws Exception{
-        while(this.opcion > 4) {
-            mostrarMenu();
-        }
+    public int getOpcion() {
+        return opcion;
     }
-
-
 }
