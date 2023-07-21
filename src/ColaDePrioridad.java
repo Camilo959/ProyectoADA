@@ -1,30 +1,65 @@
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
+/**
+ * La clase "ColaDePrioridad" representa una cola de prioridad
+ * implementada mediante un montículo mínimo (min-heap).
+ * Permite insertar elementos con su respectiva prioridad, extraer el elemento
+ * con la menor prioridad y obtener el tamaño de la cola.
+ */
 class ColaDePrioridad {
     private ArrayList<Integer> monticulo;
 
+    /**
+     * Constructor de la clase "ColaDePrioridad" que inicializa la cola de prioridad
+     * como un montículo vacío.
+     */
     public ColaDePrioridad() {
         this.monticulo = new ArrayList<Integer>();
     }
 
+    /**
+     * Retorna el montículo utilizado para implementar la cola de prioridad.
+     * 
+     * @return el montículo utilizado en la cola de prioridad.
+     */
+    public ArrayList<Integer> getMonticulo() {
+        return monticulo;
+    }
+
+    /**
+     * Verifica si la cola de prioridad está vacía.
+     * 
+     * @return true si la cola de prioridad está vacía, false en caso contrario.
+     */
     public boolean empty() {
         return this.monticulo.isEmpty();
     }
 
-    // ?
-    public int size() {
-        return this.monticulo.size();
-    }
-
+    /**
+     * Inserta un elemento en la cola de prioridad con su respectiva prioridad.
+     * Después de agregar el elemento, se realiza un ajuste hacia arriba (sift-up)
+     * para mantener la propiedad del montículo mínimo.
+     * 
+     * @param elemento el elemento a insertar en la cola de prioridad.
+     */
     public void enqueue(Integer elemento) {
         this.monticulo.add(elemento);
         siftUp(this.monticulo.size() - 1);
     }
 
+    /**
+     * Elimina y retorna el elemento con la menor prioridad en la cola de prioridad
+     * (raíz del montículo).
+     * Después de extraer el elemento, se realiza un ajuste hacia abajo (sift-down)
+     * para mantener la propiedad del montículo mínimo.
+     * 
+     * @return el elemento con la menor prioridad en la cola de prioridad, -1 en
+     *         caso de que este vacía.
+     */
     public Integer dequeue() {
         if (empty()) {
-            throw new NoSuchElementException("La fila está vacía!");
+            System.out.println("La fila está vacía!");
+            return -1;
         }
 
         Integer valorMinimo = this.monticulo.get(0);
@@ -36,41 +71,87 @@ class ColaDePrioridad {
         return valorMinimo;
     }
 
+    /**
+     * Calcula el índice del nodo padre de un nodo dado en el montículo.
+     * 
+     * @param i Índice del nodo para el cual se quiere calcular el índice del padre.
+     * @return Índice del nodo padre del nodo en la posición 'i'.
+     */
+    private int padre(int i) {
+        return (i - 1) / 2;
+    }
+
+    /**
+     * Calcula el índice del hijo derecho de un nodo dado en el montículo.
+     * 
+     * @param i Índice del nodo para el cual se quiere calcular el índice del hijo
+     *          derecho.
+     * @return Índice del hijo derecho del nodo en la posición 'i'.
+     */
+    private int indiceHijoDer(int i) {
+        return 2 * i + 2;
+    }
+
+    /**
+     * Calcula el índice del hijo izquierdo de un nodo dado en el montículo.
+     * 
+     * @param i Índice del nodo para el cual se quiere calcular el índice del hijo
+     *          izquierdo.
+     * @return Índice del hijo izquierdo del nodo en la posición 'i'.
+     */
+    private int indiceHijoIzq(int i) {
+        return 2 * i + 1;
+    }
+
+    /**
+     * Realiza un ajuste hacia arriba (sift-up) en el montículo para mantener la
+     * propiedad del montículo mínimo
+     * después de insertar un nuevo elemento en el montículo.
+     * 
+     * @param i el índice del elemento que se insertó recientemente en el montículo.
+     */
     private void siftUp(int i) {
-        int indicePadre = (i - 1) / 2;
-        while (i > 0 && monticulo.get(i).compareTo(monticulo.get(indicePadre)) < 0) {
-            swap(i, indicePadre);
-            i = indicePadre;
-            indicePadre = (i - 1) / 2;
+        while (i > 0 && monticulo.get(i).compareTo(monticulo.get(padre(i))) < 0) {
+            swap(i, padre(i));
+            i = padre(i);
         }
     }
 
-    private void siftDown(int index) {
-        int indiceHijoIzq = 2 * index + 1;
-        int indiceHijoDer = 2 * index + 2;
-        int indiceHijoMenor = index;
+    /**
+     * Realiza un ajuste hacia abajo (sift-down) en el montículo para mantener la
+     * propiedad del montículo mínimo
+     * después de extraer un elemento del montículo.
+     * 
+     * @param i el índice del elemento que se extrajo recientemente del montículo.
+     */
+    private void siftDown(int i) {
+        int indiceHijoMenor = i;
 
-        if (indiceHijoIzq < monticulo.size() && monticulo.get(indiceHijoIzq).compareTo(monticulo.get(indiceHijoMenor)) < 0) {
-            indiceHijoMenor = indiceHijoIzq;
+        if (indiceHijoIzq(i) < monticulo.size()
+                && monticulo.get(indiceHijoIzq(i)).compareTo(monticulo.get(indiceHijoMenor)) < 0) {
+            indiceHijoMenor = indiceHijoIzq(i);
         }
 
-        if (indiceHijoDer < monticulo.size() && monticulo.get(indiceHijoDer).compareTo(monticulo.get(indiceHijoMenor)) < 0) {
-            indiceHijoMenor = indiceHijoDer;
+        if (indiceHijoDer(i) < monticulo.size()
+                && monticulo.get(indiceHijoDer(i)).compareTo(monticulo.get(indiceHijoMenor)) < 0) {
+            indiceHijoMenor = indiceHijoDer(i);
         }
 
-        if (indiceHijoMenor != index) {
-            swap(index, indiceHijoMenor);
+        if (indiceHijoMenor != i) {
+            swap(i, indiceHijoMenor);
             siftDown(indiceHijoMenor);
         }
     }
 
+    /**
+     * Intercambia dos elementos en el montículo dado sus índices.
+     * 
+     * @param i el índice del primer elemento.
+     * @param j el índice del segundo elemento.
+     */
     private void swap(int i, int j) {
         Integer aux = monticulo.get(i);
         monticulo.set(i, monticulo.get(j));
         monticulo.set(j, aux);
-    }
-
-    public ArrayList<Integer> getMonticulo() {
-        return monticulo;
     }
 }
