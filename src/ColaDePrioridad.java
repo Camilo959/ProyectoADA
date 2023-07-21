@@ -36,6 +36,15 @@ class ColaDePrioridad {
     }
 
     /**
+     * Obtiene el número de elementos en la cola de prioridad.
+     * 
+     * @return el tamaño de la cola de prioridad.
+     */
+    public int tamano() {
+        return this.monticulo.size();
+    }
+
+    /**
      * Inserta un elemento en la cola de prioridad con su respectiva prioridad.
      * Después de agregar el elemento, se realiza un ajuste hacia arriba (sift-up)
      * para mantener la propiedad del montículo mínimo.
@@ -44,7 +53,7 @@ class ColaDePrioridad {
      */
     public void enqueue(Integer elemento) {
         this.monticulo.add(elemento);
-        siftUp(this.monticulo.size() - 1);
+        heapUp(this.monticulo.size() - 1);
     }
 
     /**
@@ -66,7 +75,7 @@ class ColaDePrioridad {
         int ultimoIndice = this.monticulo.size() - 1;
         monticulo.set(0, monticulo.get(ultimoIndice));
         monticulo.remove(ultimoIndice);
-        siftDown(0);
+        heapifyMin(0);
 
         return valorMinimo;
     }
@@ -110,9 +119,9 @@ class ColaDePrioridad {
      * 
      * @param i el índice del elemento que se insertó recientemente en el montículo.
      */
-    private void siftUp(int i) {
+    private void heapUp(int i) {
         while (i > 0 && monticulo.get(i).compareTo(monticulo.get(padre(i))) < 0) {
-            swap(i, padre(i));
+            intercambiar(i, padre(i));
             i = padre(i);
         }
     }
@@ -124,7 +133,7 @@ class ColaDePrioridad {
      * 
      * @param i el índice del elemento que se extrajo recientemente del montículo.
      */
-    private void siftDown(int i) {
+    private void heapifyMin(int i) {
         int indiceHijoMenor = i;
 
         if (indiceHijoIzq(i) < monticulo.size()
@@ -138,8 +147,8 @@ class ColaDePrioridad {
         }
 
         if (indiceHijoMenor != i) {
-            swap(i, indiceHijoMenor);
-            siftDown(indiceHijoMenor);
+            intercambiar(i, indiceHijoMenor);
+            heapifyMin(indiceHijoMenor);
         }
     }
 
@@ -149,7 +158,7 @@ class ColaDePrioridad {
      * @param i el índice del primer elemento.
      * @param j el índice del segundo elemento.
      */
-    private void swap(int i, int j) {
+    private void intercambiar(int i, int j) {
         Integer aux = monticulo.get(i);
         monticulo.set(i, monticulo.get(j));
         monticulo.set(j, aux);
